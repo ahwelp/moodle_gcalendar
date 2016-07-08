@@ -30,22 +30,22 @@ include_once 'classes/calendar_dispatcher.php';
 $CFG->calendar = 'googlecalendar';
 
 function googlecalendar_add_event($args){
-    //CalendarDispatcher::add_event($args);    
+    CalendarDispatcher::add_event($args);    
 }
 
 function googlecalendar_update_event($args){
-    //CalendarDispatcher::update_event($args);
+    CalendarDispatcher::update_event($args);
 }
 
 function googlecalendar_delete_event($args){
-    //CalendarDispatcher::delete_event($args);
+    CalendarDispatcher::delete_event($args);
 }
 
 function googlecalendar_show_event($args){
-    //CalendarDispatcher::show_event($args);
+    CalendarDispatcher::show_event($args);
 }
 
 function googlecalendar_hide_event($args){
-    //CalendarDispatcher::hide_event($args);
+    CalendarDispatcher::hide_event($args);
 }
 

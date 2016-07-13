@@ -3,6 +3,7 @@
 This project has the intention to integrate Moodle with Google Calendar.
 
 How to install:
+
 1 - Copy the googlecalendar folder to local/ and configure file permission
 
 2 - Allow Moodle to update the Google Calendar

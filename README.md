@@ -6,16 +6,16 @@ How to install:
 1 - Copy the googlecalendar folder to local/ and configure file permission
 
 2 - Allow Moodle to update the Google Calendar
-  2.1 - Log in your defined system account
-  2.2 - Acess https://console.developers.google.com - Credentials
-  2.3 - Create an OAuth Key
-  2.4 - Download Key and place in the certs/ folder
-  2.5 - In the command line run the boot.php file
-  2.6 - Make sure the quickstart file has been created
+  - Log in your defined system account
+  - Acess https://console.developers.google.com - Credentials
+  - Create an OAuth Key
+  - Download Key and place in the certs/ folder
+  - In the command line run the boot.php file
+  - Make sure the quickstart file has been created
   
 3 - (Optional) Register your site in Google (Required for two way sync)
-  3.1 - Acess https://console.developers.google.com - Credentials - Domain Verification
-  3.2 - Add an domain
+  - Acess https://console.developers.google.com - Credentials - Domain Verification
+  - Add an domain
   
 4 - Run Moodle's admin verification and accept to install the plugin
 

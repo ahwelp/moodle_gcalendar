@@ -9,9 +9,13 @@ How to install:
 2 - Allow Moodle to update the Google Calendar
   - Log in your defined system account
   - Acess https://console.developers.google.com - Credentials
-  - Create an OAuth Key
+  - Create a project
+  - In the project created, enable the Calendar API
+  - In the project created, create an OAuth Key
   - Download Key and place in the certs/ folder
   - In the command line run the boot.php file
+  - Paste the link on the browser
+  - The verification code might be in the browser URL
   - Make sure the quickstart file has been created
   
 3 - (Optional) Register your site in Google (Required for two way sync)

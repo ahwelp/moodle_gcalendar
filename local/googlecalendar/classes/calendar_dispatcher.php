@@ -10,53 +10,108 @@
  * @copyright  2016 Univates - htttp://www.univates.br/
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-require_once 'event.class.php';
+include_once "calendar.class.php";
+require_once "event.class.php";
 
 class CalendarDispatcher {
 
-    public static function calendar_event_hook($action, array $args) {
-        CalendarDispatcher::$action($args[0]);
+    public static function calendar_event_hook($action, $args) {
+        CalendarDispatcher::$action($args);
     }
 
     public static function add_event($moodle_event = array()) {
-        global $CFG, $DB;
+        global $DB;
+
         $event = new CalendarEvent();
-        $event->set_eventdata($moodle_event);
-        $event->load_readers();        
-        $event->dispatch_create();
+        $event->set_eventdata($moodle_event->eventid);
+        $event->load_data();
+        $event->load_readers();
+        if ($event->dispatch_create()) {
+            $DB->execute("DELETE FROM {local_googlecalendar_cron} WHERE id = ?", array($moodle_event->id));
+        }
     }
 
     public static function update_event($moodle_event = array()) {
-        global $CFG, $DB;
+        global $DB;
+
         $event = new CalendarEvent();
-        $event->set_eventdata($moodle_event);
+        $event->set_eventdata($moodle_event->eventid);
+        $event->load_data();
         $event->load_readers();
-        $event->dispatch_update();
+        if ($event->dispatch_update()) {
+            $DB->execute("DELETE FROM {local_googlecalendar_cron} WHERE id = ?", array($moodle_event->id));
+        }
     }
 
     public static function delete_event($moodle_event = array()) {
-        $event = new CalendarEvent();        
-        $event->set_eventid($moodle_event);
-        $event->dispatch_delete();
+        global $DB;
+
+        $event = new CalendarEvent();
+        $event->set_eventdata($moodle_event->eventid);
+        if ($event->dispatch_delete()) {
+            $DB->execute("DELETE FROM {local_googlecalendar_cron} WHERE id = ?", array($moodle_event->id));
+        }
     }
-    
+
     public static function show_event($moodle_event = array()) {
-        $event = new CalendarEvent();
-        $event->set_eventdata($moodle_event);
-        $event->load_readers();
-        $event->dispatch_show_visible();
+        
     }
-    
+
     public static function hide_event($moodle_event = array()) {
+        
+    }
+
+    public static function student_calendar_create($user = null) {
+        $calendar = new Calendar();
         $event = new CalendarEvent();
-        $event->set_eventdata($moodle_event);
-        $event->load_readers();
-        $event->dispatch_hide_visible();
+
+        if (!$calendar->create_user_calendar($user)) {
+            return false;
+        }
+        
+        //$event->create_late_events($moodle_event->userid);
+        
+    }
+
+    public static function student_acl_create($moodle_event = array()) {
+        global $DB;
+    }
+
+    public static function student_acl_activate($userid) {
+        global $DB;
+        $calendar = new Calendar();
+        $calendar->user_calendar_acl_create($userid);
+    }
+
+    public static function student_acl_delete($userid) {
+        $calendar = new Calendar();
+        $calendar->user_calendar_acl_remove($userid);
+    }
+
+    public static function course_calendar_create($moodle_event = array()) {
+        global $DB;
+
+        $calendar = new Calendar();
+        if ($calendar->create_course_calendar($moodle_event->courseid)) {
+            $DB->execute("DELETE FROM {local_googlecalendar_cron} WHERE id = ?", array($moodle_event->id));
+        }
+    }
+
+    public static function course_calendar_delete($moodle_event = array()) {
+        echo "course_calendar_delete\n";
+    }
+
+    public static function teacher_acl_create($moodle_event = array()) {
+        echo "teacher_acl_create\n";
+    }
+
+    public static function teacher_acl_delete($moodle_event = array()) {
+        
     }
 
     public static function google_hook($resourceid = null) {
         $event = new CalendarEvent();
         $event->manage_google_request($resourceid);
     }
-    
+
 }

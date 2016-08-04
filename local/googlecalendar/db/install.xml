@@ -1,39 +1,49 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-  <XMLDB PATH="local/googlecalendar/db" VERSION="2016040802" COMMENT="XMLDB file for Moodle local/googlecalendar">
+<XMLDB PATH="local/googlecalendar/db" VERSION="2016040802" COMMENT="XMLDB file for Moodle local/googlecalendar">
     <TABLES>
-      <TABLE NAME="local_googlecalendar" COMMENT="Google Calendar">
-        <FIELDS>
-          <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true" />        
-          <FIELD NAME="calendarid" TYPE="text" LENGTH="255" NOTNULL="true" />
-          <FIELD NAME="resourceid" TYPE="text" LENGTH="255" NOTNULL="false" SEQUENCE="false" />
-          <FIELD NAME="resourceexpiration" TYPE="int" LENGTH="10" NOTNULL="false" />
-          <FIELD NAME="userid" TYPE="int" LENGTH="10" NOTNULL="false" DEFAULT="0" />
-          <FIELD NAME="courseid" TYPE="int" LENGTH="10" NOTNULL="false" DEFAULT="0"  />
-          <FIELD NAME="synctoken" TYPE="text" LENGTH="10" NOTNULL="false" />
-          <FIELD NAME="synctokenlastdate" TYPE="int" LENGTH="10" NOTNULL="false" />
-        </FIELDS>
-        <KEYS>
-          <KEY NAME="primary" TYPE="primary" FIELDS="id" />
-          <KEY NAME="fk_userid" TYPE="foreign" FIELDS="userid" REFTABLE="course" REFFIELDS="id"/>
-          <KEY NAME="fk_courseid" TYPE="foreign" FIELDS="courseid" REFTABLE="course" REFFIELDS="id"/>
-        </KEYS>
-        <!--
-        <INDEXES>
-            <INDEX NAME="resourceid" UNIQUE="false" FIELDS="resourceid"/>
-        </INDEXES>
-        -->
-      </TABLE>
-      <TABLE NAME="local_googlecalendar_event" COMMENT="Google Calendar">
-        <FIELDS>
-          <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true" />        
-          <FIELD NAME="eventid" TYPE="int" LENGTH="10" NOTNULL="true" />
-          <FIELD NAME="googleeventid" TYPE="text" LENGTH="255" NOTNULL="true" SEQUENCE="false" />
-          <FIELD NAME="googlecalendarid" TYPE="int" LENGTH="10" NOTNULL="true" />
-        </FIELDS>
-        <KEYS>
-          <KEY NAME="primary" TYPE="primary" FIELDS="id" />
-          <KEY NAME="fk_eventid" TYPE="foreign" FIELDS="eventid" REFTABLE="event" REFFIELDS="id"/>
-        </KEYS>
-      </TABLE>
+        <TABLE NAME="local_googlecalendar" COMMENT="Google Calendar">
+            <FIELDS>
+                <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true" />                
+                <FIELD NAME="active" TYPE="binary" NOTNULL="true" DEFAULT="false" />                
+                <FIELD NAME="calendarid" TYPE="text" LENGTH="255" NOTNULL="true" />
+                <FIELD NAME="resourceid" TYPE="text" LENGTH="255" NOTNULL="false" SEQUENCE="false" />
+                <FIELD NAME="resourceexpiration" TYPE="int" LENGTH="10" NOTNULL="false" />
+                <FIELD NAME="userid" TYPE="int" LENGTH="10" NOTNULL="false" DEFAULT="0" />
+                <FIELD NAME="courseid" TYPE="int" LENGTH="10" NOTNULL="false" DEFAULT="0"  />
+                <FIELD NAME="synctoken" TYPE="text" LENGTH="10" NOTNULL="false" />
+                <FIELD NAME="synctokenlastdate" TYPE="int" LENGTH="10" NOTNULL="false" />
+            </FIELDS>
+
+            <KEYS>
+                <KEY NAME="primary" TYPE="primary" FIELDS="id" />
+                <KEY NAME="fk_userid" TYPE="foreign" FIELDS="userid" REFTABLE="course" REFFIELDS="id"/>
+                <KEY NAME="fk_courseid" TYPE="foreign" FIELDS="courseid" REFTABLE="course" REFFIELDS="id"/>
+            </KEYS>
+        </TABLE>
+        
+        <TABLE NAME="local_googlecalendar_event" COMMENT="Google Calendar">
+            <FIELDS>
+                <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true" />        
+                <FIELD NAME="eventid" TYPE="int" LENGTH="10" NOTNULL="true" />
+                <FIELD NAME="googleeventid" TYPE="text" LENGTH="255" NOTNULL="true" SEQUENCE="false" />
+                <FIELD NAME="googlecalendarid" TYPE="int" LENGTH="10" NOTNULL="true" />
+            </FIELDS>
+            <KEYS>
+                <KEY NAME="primary" TYPE="primary" FIELDS="id" />
+                <KEY NAME="fk_eventid" TYPE="foreign" FIELDS="eventid" REFTABLE="event" REFFIELDS="id"/>
+            </KEYS>
+        </TABLE>
+        
+        <TABLE NAME="local_googlecalendar_cron" COMMENT="Google Calendar">
+            <FIELDS>
+                <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true" />
+                <FIELD NAME="action" TYPE="text" LENGTH="20" NOTNULL="true" />
+                <FIELD NAME="eventid" TYPE="int" LENGTH="10" NOTNULL="false" />
+            </FIELDS>
+            <KEYS>
+                <KEY NAME="primary" TYPE="primary" FIELDS="id" />                
+            </KEYS>
+        </TABLE>        
     </TABLES>
-  </XMLDB>
+    
+</XMLDB>
